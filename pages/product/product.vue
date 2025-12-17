@@ -10,6 +10,7 @@
 			</swiper>
 		</view>
 
+		<!-- 基本信息 -->
 		<view class="introduce-section">
 			<text class="title">{{product.name}}</text><br>
 			<text class="title2">{{product.subTitle}}</text>
@@ -17,12 +18,138 @@
 				<text class="price-tip">¥</text>
 				<text class="price">{{product.price}}</text>
 				<text class="m-price">¥{{product.originalPrice}}</text>
-				<!-- <text class="coupon-tip">7折</text> -->
 			</view>
 			<view class="bot-row">
 				<text>销量: {{product.sale}}</text>
 				<text>库存: {{product.stock}}</text>
 				<text>浏览量: 768</text>
+			</view>
+			<!-- 新增店铺信息和操作按钮 -->
+			<view class="shop-info">
+				<view class="shop-row">
+					<text class="shop-label">店铺名：</text>
+					<text class="shop-name">{{product.shopName || '官方旗舰店'}}</text>
+				</view>
+				<view class="shop-row">
+					<text class="shop-label">用尽：</text>
+					<text class="shop-value">{{product.usage || '7天无理由退换'}}</text>
+				</view>
+				<button class="go-sell-btn" @click="goToSell">去带货</button>
+			</view>
+		</view>
+		
+		<!-- 平台选择筛选 -->
+		<view class="platform-filter-section">
+			<view class="filter-tabs">
+				<text class="filter-tab active">平台选择</text>
+				<text class="filter-tab">昨日销量</text>
+				<text class="filter-tab">价格公开</text>
+				<text class="filter-tab">最新上架</text>
+			</view>
+		</view>
+		
+		<!-- 数据概览 -->
+		<view class="data-overview-section">
+			<view class="section-header">
+				<text class="section-title">数据概览</text>
+			</view>
+			<view class="data-chart">
+				<view class="chart-placeholder">
+					<text>📊 数据图表展示区域</text>
+					<text class="chart-desc">销量趋势、转化率等数据可视化</text>
+				</view>
+			</view>
+		</view>
+		
+		<!-- AI评估 -->
+		<view class="ai-evaluation-section">
+			<view class="section-header">
+				<text class="section-title">AI评估</text>
+			</view>
+			<view class="ai-content">
+				<view class="ai-score">
+					<text class="score-label">综合评分：</text>
+					<text class="score-value">8.5/10</text>
+				</view>
+				<view class="ai-tags">
+					<text class="ai-tag hot">🔥 热门商品</text>
+					<text class="ai-tag potential">⚡ 高转化潜力</text>
+					<text class="ai-tag trend">📈 上升趋势</text>
+				</view>
+				<text class="ai-desc">该商品具有较高的市场热度和转化潜力，建议重点推广</text>
+			</view>
+		</view>
+		
+		<!-- AI建议 -->
+		<view class="ai-suggestion-section">
+			<view class="section-header">
+				<text class="section-title">AI建议</text>
+			</view>
+			<view class="suggestion-content">
+				<view class="suggestion-item">
+					<text class="suggestion-title">📱 推荐平台：</text>
+					<text class="suggestion-text">抖音、快手直播效果更佳</text>
+				</view>
+				<view class="suggestion-item">
+					<text class="suggestion-title">🎯 目标人群：</text>
+					<text class="suggestion-text">25-35岁女性用户，关注生活品质</text>
+				</view>
+				<view class="suggestion-item">
+					<text class="suggestion-title">💡 营销建议：</text>
+					<text class="suggestion-text">突出性价比和实用性，配合限时优惠</text>
+				</view>
+			</view>
+		</view>
+		
+		<!-- 热门素材 -->
+		<view class="hot-materials-section">
+			<view class="section-header">
+				<text class="section-title">热门素材</text>
+			</view>
+			<scroll-view class="materials-scroll" scroll-x>
+				<view class="materials-list">
+					<view v-for="(item, index) in hotMaterials" :key="index" class="material-item" @click="viewMaterial(item)">
+						<image :src="item.pic" class="material-image"></image>
+						<text class="material-title">{{item.title}}</text>
+					</view>
+				</view>
+			</scroll-view>
+		</view>
+		
+		<!-- 热门视频 -->
+		<view class="hot-videos-section">
+			<view class="section-header">
+				<text class="section-title">热门视频</text>
+			</view>
+			<scroll-view class="videos-scroll" scroll-x>
+				<view class="videos-list">
+					<view v-for="(item, index) in hotVideos" :key="index" class="video-item" @click="playVideo(item)">
+						<view class="video-cover">
+							<image :src="item.cover" class="video-image"></image>
+							<view class="play-icon">▶️</view>
+						</view>
+						<text class="video-title">{{item.title}}</text>
+						<text class="video-stats">{{item.views}}万播放</text>
+					</view>
+				</view>
+			</scroll-view>
+		</view>
+		
+		<!-- 热门直播 -->
+		<view class="hot-live-section">
+			<view class="section-header">
+				<text class="section-title">热门直播</text>
+			</view>
+			<view class="live-list">
+				<view v-for="(item, index) in hotLives" :key="index" class="live-item" @click="joinLive(item)">
+					<image :src="item.avatar" class="live-avatar"></image>
+					<view class="live-info">
+						<text class="live-anchor">{{item.anchor}}</text>
+						<text class="live-title">{{item.title}}</text>
+						<text class="live-viewers">{{item.viewers}}人观看</text>
+					</view>
+					<view class="live-status">🔴 直播中</view>
+				</view>
 			</view>
 		</view>
 
@@ -121,24 +248,27 @@
 			<rich-text :nodes="desc"></rich-text>
 		</view>
 
-		<!-- 底部操作菜单 -->
+		<!-- 底部操作菜单 - 按原型图要求 -->
 		<view class="page-bottom">
-			<navigator url="/pages/index/index" open-type="switchTab" class="p-b-btn">
-				<text class="yticon icon-xiatubiao--copy"></text>
-				<text>首页</text>
-			</navigator>
-			<navigator url="/pages/cart/cart" open-type="switchTab" class="p-b-btn">
-				<text class="yticon icon-gouwuche"></text>
-				<text>购物车</text>
-			</navigator>
+			<view class="p-b-btn" @click="copyLink">
+				<text class="yticon">🔗</text>
+				<text>复制链接</text>
+			</view>
+			<view class="p-b-btn" @click="copyId">
+				<text class="yticon">📋</text>
+				<text>复制ID</text>
+			</view>
 			<view class="p-b-btn" :class="{active: favorite}" @click="toFavorite">
 				<text class="yticon icon-shoucang"></text>
 				<text>收藏</text>
 			</view>
-
-			<view class="action-btn-group">
-				<button type="primary" class=" action-btn no-border buy-now-btn" @click="buy">立即购买</button>
-				<button type="primary" class=" action-btn no-border add-cart-btn" @click="addToCart">加入购物车</button>
+			<view class="p-b-btn" @click="aiAnalysis">
+				<text class="yticon">🤖</text>
+				<text>AI分析</text>
+			</view>
+			<view class="p-b-btn" @click="aiSelling">
+				<text class="yticon">🎯</text>
+				<text>AI带货</text>
 			</view>
 		</view>
 
@@ -294,7 +424,55 @@
 				attrList: [],
 				promotionTipList: [],
 				couponState: 0,
-				couponList: []
+				couponList: [],
+				// 新增AI相关数据
+				hotMaterials: [
+					{
+						id: 1,
+						title: '爆款文案模板',
+						pic: 'https://via.placeholder.com/200x150/ff6b6b/ffffff?text=文案'
+					},
+					{
+						id: 2,
+						title: '产品展示图',
+						pic: 'https://via.placeholder.com/200x150/4ecdc4/ffffff?text=展示'
+					},
+					{
+						id: 3,
+						title: '营销海报',
+						pic: 'https://via.placeholder.com/200x150/45b7d1/ffffff?text=海报'
+					}
+				],
+				hotVideos: [
+					{
+						id: 1,
+						title: '产品使用教程',
+						cover: 'https://via.placeholder.com/200x150/f093fb/ffffff?text=教程',
+						views: '12.5'
+					},
+					{
+						id: 2,
+						title: '用户真实评价',
+						cover: 'https://via.placeholder.com/200x150/4facfe/ffffff?text=评价',
+						views: '8.3'
+					}
+				],
+				hotLives: [
+					{
+						id: 1,
+						anchor: '主播小王',
+						title: '限时特惠直播间',
+						viewers: '1.2万',
+						avatar: 'https://via.placeholder.com/80x80/667eea/ffffff?text=王'
+					},
+					{
+						id: 2,
+						anchor: '美妆达人',
+						title: '好物推荐专场',
+						viewers: '8500',
+						avatar: 'https://via.placeholder.com/80x80/43e97b/ffffff?text=美'
+					}
+				]
 			};
 		},
 		async onLoad(options) {
@@ -710,6 +888,55 @@
 					url: `/pages/brand/brandDetail?id=${id}`
 				})
 			},
+			// 新增AI相关方法
+			goToSell() {
+				uni.showToast({
+					title: '去带货功能正在开发中',
+					icon: 'none'
+				});
+			},
+			copyLink() {
+				uni.showToast({
+					title: '复制链接功能正在开发中',
+					icon: 'none'
+				});
+			},
+			copyId() {
+				uni.showToast({
+					title: '复制ID功能正在开发中',
+					icon: 'none'
+				});
+			},
+			aiAnalysis() {
+				uni.showToast({
+					title: 'AI分析功能正在开发中',
+					icon: 'none'
+				});
+			},
+			aiSelling() {
+				uni.showToast({
+					title: 'AI带货功能正在开发中',
+					icon: 'none'
+				});
+			},
+			viewMaterial(item) {
+				uni.showToast({
+					title: '查看素材功能正在开发中',
+					icon: 'none'
+				});
+			},
+			playVideo(item) {
+				uni.showToast({
+					title: '播放视频功能正在开发中',
+					icon: 'none'
+				});
+			},
+			joinLive(item) {
+				uni.showToast({
+					title: '加入直播功能正在开发中',
+					icon: 'none'
+				});
+			},
 		},
 
 	}
@@ -1033,7 +1260,7 @@
 		}
 	}
 
-	.detail-desc /deep/ img {
+	.detail-desc ::v-deep img {
 		width: 100%;
 		height: auto;
 	}
@@ -1219,84 +1446,314 @@
 		}
 	}
 
-	/* 底部操作菜单 */
+	/* 新增样式 */
+	.shop-info {
+		margin-top: 20upx;
+		padding-top: 20upx;
+		border-top: 1px solid #f0f0f0;
+		
+		.shop-row {
+			display: flex;
+			align-items: center;
+			margin-bottom: 10upx;
+			
+			.shop-label {
+				font-size: 26upx;
+				color: $font-color-light;
+				width: 120upx;
+			}
+			
+			.shop-name, .shop-value {
+				font-size: 26upx;
+				color: $font-color-dark;
+			}
+		}
+		
+		.go-sell-btn {
+			background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
+			color: #fff;
+			border: none;
+			border-radius: 50upx;
+			padding: 15upx 40upx;
+			font-size: 28upx;
+			margin-top: 20upx;
+		}
+	}
+	
+	.platform-filter-section {
+		background: #fff;
+		margin-top: 16upx;
+		padding: 20upx 30upx;
+		
+		.filter-tabs {
+			display: flex;
+			justify-content: space-between;
+			
+			.filter-tab {
+				font-size: 28upx;
+				color: #666;
+				
+				&.active {
+					color: $uni-color-primary;
+					font-weight: bold;
+				}
+			}
+		}
+	}
+	
+	.data-overview-section, .ai-evaluation-section, .ai-suggestion-section,
+	.hot-materials-section, .hot-videos-section, .hot-live-section {
+		background: #fff;
+		margin-top: 16upx;
+		
+		.section-header {
+			padding: 30upx;
+			border-bottom: 1px solid #f0f0f0;
+			
+			.section-title {
+				font-size: 32upx;
+				font-weight: bold;
+				color: $font-color-dark;
+			}
+		}
+	}
+	
+	.data-chart {
+		padding: 40upx;
+		
+		.chart-placeholder {
+			height: 300upx;
+			background: #f8f9fa;
+			border-radius: 12upx;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			
+			text:first-child {
+				font-size: 48upx;
+				margin-bottom: 20upx;
+			}
+			
+			.chart-desc {
+				font-size: 24upx;
+				color: #999;
+			}
+		}
+	}
+	
+	.ai-content {
+		padding: 30upx;
+		
+		.ai-score {
+			display: flex;
+			align-items: center;
+			margin-bottom: 20upx;
+			
+			.score-label {
+				font-size: 28upx;
+				color: $font-color-dark;
+			}
+			
+			.score-value {
+				font-size: 32upx;
+				font-weight: bold;
+				color: #ff6b6b;
+				margin-left: 10upx;
+			}
+		}
+		
+		.ai-tags {
+			margin-bottom: 20upx;
+			
+			.ai-tag {
+				display: inline-block;
+				padding: 8upx 16upx;
+				border-radius: 20upx;
+				font-size: 22upx;
+				margin-right: 15upx;
+				margin-bottom: 10upx;
+				
+				&.hot {
+					background: #fff2e8;
+					color: #fa8c16;
+				}
+				
+				&.potential {
+					background: #f6ffed;
+					color: #52c41a;
+				}
+				
+				&.trend {
+					background: #e6f7ff;
+					color: #1890ff;
+				}
+			}
+		}
+		
+		.ai-desc {
+			font-size: 26upx;
+			color: #666;
+			line-height: 1.6;
+		}
+	}
+	
+	.suggestion-content {
+		padding: 30upx;
+		
+		.suggestion-item {
+			margin-bottom: 25upx;
+			
+			.suggestion-title {
+				font-size: 26upx;
+				color: $font-color-dark;
+				font-weight: bold;
+				display: block;
+				margin-bottom: 8upx;
+			}
+			
+			.suggestion-text {
+				font-size: 24upx;
+				color: #666;
+				line-height: 1.5;
+			}
+		}
+	}
+	
+	.materials-scroll, .videos-scroll {
+		padding: 30upx;
+		
+		.materials-list, .videos-list {
+			display: flex;
+			
+			.material-item, .video-item {
+				margin-right: 20upx;
+				
+				.material-image, .video-image {
+					width: 200upx;
+					height: 150upx;
+					border-radius: 12upx;
+				}
+				
+				.material-title, .video-title {
+					display: block;
+					font-size: 24upx;
+					color: $font-color-dark;
+					margin-top: 10upx;
+					width: 200upx;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					white-space: nowrap;
+				}
+				
+				.video-stats {
+					display: block;
+					font-size: 22upx;
+					color: #999;
+					margin-top: 5upx;
+				}
+			}
+			
+			.video-cover {
+				position: relative;
+				
+				.play-icon {
+					position: absolute;
+					top: 50%;
+					left: 50%;
+					transform: translate(-50%, -50%);
+					font-size: 40upx;
+				}
+			}
+		}
+	}
+	
+	.live-list {
+		padding: 30upx;
+		
+		.live-item {
+			display: flex;
+			align-items: center;
+			padding: 20upx 0;
+			border-bottom: 1px solid #f0f0f0;
+			
+			&:last-child {
+				border-bottom: none;
+			}
+			
+			.live-avatar {
+				width: 80upx;
+				height: 80upx;
+				border-radius: 50%;
+				margin-right: 20upx;
+			}
+			
+			.live-info {
+				flex: 1;
+				
+				.live-anchor {
+					font-size: 28upx;
+					color: $font-color-dark;
+					font-weight: bold;
+					display: block;
+					margin-bottom: 8upx;
+				}
+				
+				.live-title {
+					font-size: 24upx;
+					color: #666;
+					display: block;
+					margin-bottom: 5upx;
+				}
+				
+				.live-viewers {
+					font-size: 22upx;
+					color: #999;
+				}
+			}
+			
+			.live-status {
+				font-size: 22upx;
+				color: #ff4d4f;
+			}
+		}
+	}
+
+	/* 底部操作菜单 - 修改为5个按钮 */
 	.page-bottom {
 		position: fixed;
-		left: 30upx;
-		bottom: 30upx;
+		left: 0;
+		bottom: 0;
 		z-index: 95;
 		display: flex;
-		justify-content: center;
+		justify-content: space-around;
 		align-items: center;
-		width: 690upx;
-		height: 100upx;
-		background: rgba(255, 255, 255, .9);
-		box-shadow: 0 0 20upx 0 rgba(0, 0, 0, .5);
-		border-radius: 16upx;
+		width: 100%;
+		height: 120upx;
+		background: rgba(255, 255, 255, .95);
+		box-shadow: 0 -2upx 20upx 0 rgba(0, 0, 0, .1);
+		border-top: 1px solid #f0f0f0;
 
 		.p-b-btn {
 			display: flex;
 			flex-direction: column;
 			align-items: center;
 			justify-content: center;
-			font-size: $font-sm;
+			font-size: 22upx;
 			color: $font-color-base;
-			width: 96upx;
-			height: 80upx;
+			flex: 1;
+			height: 100upx;
 
 			.yticon {
-				font-size: 40upx;
-				line-height: 48upx;
+				font-size: 36upx;
+				line-height: 40upx;
 				color: $font-color-light;
+				margin-bottom: 8upx;
 			}
 
 			&.active,
 			&.active .yticon {
 				color: $uni-color-primary;
-			}
-
-			.icon-fenxiang2 {
-				font-size: 42upx;
-				transform: translateY(-2upx);
-			}
-
-			.icon-shoucang {
-				font-size: 46upx;
-			}
-		}
-
-		.action-btn-group {
-			display: flex;
-			height: 76upx;
-			border-radius: 100px;
-			overflow: hidden;
-			box-shadow: 0 20upx 40upx -16upx #fa436a;
-			box-shadow: 1px 2px 5px rgba(219, 63, 96, 0.4);
-			background: linear-gradient(to right, #ffac30, #fa436a, #F56C6C);
-			margin-left: 20upx;
-			position: relative;
-
-			&:after {
-				content: '';
-				position: absolute;
-				top: 50%;
-				right: 50%;
-				transform: translateY(-50%);
-				height: 28upx;
-				width: 0;
-				border-right: 1px solid rgba(255, 255, 255, .5);
-			}
-
-			.action-btn {
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				width: 180upx;
-				height: 100%;
-				font-size: $font-base;
-				padding: 0;
-				border-radius: 0;
-				background: transparent;
 			}
 		}
 	}

@@ -25,131 +25,200 @@
 				<text class="num">{{swiperLength}}</text>
 			</view>
 		</view>
-		<!-- 头部功能区 -->
-		<view class="cate-section">
-			<view class="cate-item">
-				<image src="/static/temp/c3.png"></image>
-				<text>专题</text>
+		<!-- AI功能导航区 - 按原型图8个功能 -->
+		<view class="ai-nav-section">
+			<view class="nav-grid">
+				<view class="nav-item" @click="navToAIPage('hotRanking')">
+					<view class="nav-icon hot">🔥</view>
+					<text>爆品榜</text>
+				</view>
+				<view class="nav-item" @click="showDeveloping">
+					<view class="nav-icon expert">👤</view>
+					<text>达人榜</text>
+				</view>
+				<view class="nav-item" @click="showDeveloping">
+					<view class="nav-icon live">📺</view>
+					<text>直播榜</text>
+				</view>
+				<view class="nav-item" @click="showDeveloping">
+					<view class="nav-icon video">🎬</view>
+					<text>视频榜</text>
+				</view>
+				<view class="nav-item" @click="showDeveloping">
+					<view class="nav-icon avatar">🤖</view>
+					<text>数字分身</text>
+				</view>
+				<view class="nav-item" @click="showDeveloping">
+					<view class="nav-icon ai-video">🎥</view>
+					<text>AI视频</text>
+				</view>
+				<view class="nav-item" @click="showDeveloping">
+					<view class="nav-icon ai-copy">✍️</view>
+					<text>AI文案</text>
+				</view>
+				<view class="nav-item" @click="showDeveloping">
+					<view class="nav-icon ai-tools">🛠️</view>
+					<text>AI工具箱</text>
+				</view>
 			</view>
-			<view class="cate-item">
-				<image src="/static/temp/c5.png"></image>
-				<text>话题</text>
+		</view>
+		
+		<!-- 星选专享区域 -->
+		<view class="star-exclusive-section">
+			<!-- 左侧星选专享按钮 -->
+			<view class="star-button" @click="navToStarSelection">
+				<text class="vertical-text">星选专享</text>
 			</view>
-			<view class="cate-item">
-				<image src="/static/temp/c6.png"></image>
-				<text>优选</text>
+			<!-- 右侧四宫格 -->
+			<view class="star-grid">
+				<view v-for="(item, index) in starProducts" :key="index" class="grid-item" @click="navToSeasonPage(item)">
+					<view class="grid-tag" :class="item.tagClass">{{item.tag}}</view>
+					<image :src="item.pic" class="grid-image"></image>
+					<text class="grid-label">{{item.label}}</text>
+				</view>
 			</view>
-			<view class="cate-item">
-				<image src="/static/temp/c7.png"></image>
-				<text>特惠</text>
+		</view>
+		
+		<!-- 筛选区域 -->
+		<view class="filter-section">
+			<view class="filter-row">
+				<view class="filter-item" @click="showFilterDropdown('platform')">
+					<text class="filter-label">{{currentFilters.platform}}</text>
+					<text class="filter-arrow">▼</text>
+				</view>
+				<view class="filter-item" @click="showFilterDropdown('sales')">
+					<text class="filter-label">{{currentFilters.sales}}</text>
+					<text class="filter-arrow">▼</text>
+				</view>
+				<view class="filter-item" @click="showFilterDropdown('commission')">
+					<text class="filter-label">{{currentFilters.commission}}</text>
+					<text class="filter-arrow">▼</text>
+				</view>
+				<view class="filter-item" @click="showFilterDropdown('sort')">
+					<text class="filter-label">{{currentFilters.sort}}</text>
+					<text class="filter-arrow">▼</text>
+				</view>
+			</view>
+		</view>
+		
+		<!-- 下拉选择弹窗 -->
+		<view class="dropdown-mask" :class="{show: showDropdown}" @click="hideDropdown">
+			<view class="dropdown-content" @click.stop>
+				<view class="dropdown-title">{{dropdownTitle}}</view>
+				<view class="dropdown-list">
+					<view v-for="(option, index) in currentOptions" :key="index" 
+						  class="dropdown-option" 
+						  :class="{active: option.selected}"
+						  @click="selectOption(option)">
+						<text>{{option.label}}</text>
+						<text v-if="option.selected" class="check-icon">✓</text>
+					</view>
+				</view>
 			</view>
 		</view>
 
 		<!-- 品牌制造商直供 -->
-		<view class="f-header m-t" @click="navToRecommendBrandPage()">
-			<image src="/static/icon_home_brand.png"></image>
-			<view class="tit-box">
-				<text class="tit">品牌制造商直供</text>
-				<text class="tit2">工厂直达消费者，剔除品牌溢价</text>
-			</view>
-			<text class="yticon icon-you"></text>
-		</view>
-
-		<view class="guess-section">
-			<view v-for="(item, index) in brandList" :key="index" class="guess-item" @click="navToBrandDetailPage(item)">
-				<view class="image-wrapper-brand">
-					<image :src="item.logo" mode="aspectFit"></image>
-				</view>
-				<text class="title clamp">{{item.name}}</text>
-				<text class="title2">商品数量：{{item.productCount}}</text>
-			</view>
-		</view>
+<!--		<view class="f-header m-t" @click="navToRecommendBrandPage()">-->
+<!--			<image src="/static/icon_home_brand.png"></image>-->
+<!--			<view class="tit-box">-->
+<!--				<text class="tit">品牌制造商直供</text>-->
+<!--				<text class="tit2">工厂直达消费者，剔除品牌溢价</text>-->
+<!--			</view>-->
+<!--			<text class="yticon icon-you"></text>-->
+<!--		</view>-->
+<!--		<view class="guess-section">-->
+<!--			<view v-for="(item, index) in brandList" :key="index" class="guess-item" @click="navToBrandDetailPage(item)">-->
+<!--				<view class="image-wrapper-brand">-->
+<!--					<image :src="item.logo" mode="aspectFit"></image>-->
+<!--				</view>-->
+<!--				<text class="title clamp">{{item.name}}</text>-->
+<!--				<text class="title2">商品数量：{{item.productCount}}</text>-->
+<!--			</view>-->
+<!--		</view>-->
 
 		<!-- 秒杀专区 -->
-		<view class="f-header m-t" v-if="homeFlashPromotion!==null">
-			<image src="/static/icon_flash_promotion.png"></image>
-			<view class="tit-box">
-				<text class="tit">秒杀专区</text>
-				<text class="tit2">下一场 {{homeFlashPromotion.nextStartTime | formatTime}} 开始</text>
-			</view>
-			<view class="tit-box">
-				<text class="tit2" style="text-align: right;">本场结束剩余：</text>
-				<view style="text-align: right;">
-					<text class="hour timer">{{cutDownTime.endHour}}</text>
-					<text>:</text>
-					<text class="minute timer">{{cutDownTime.endMinute}}</text>
-					<text>:</text>
-					<text class="second timer">{{cutDownTime.endSecond}}</text>
-				</view>
-			</view>
-			<text class="yticon icon-you" v-show="false"></text>
-		</view>
-
-		<view class="guess-section">
-			<view v-for="(item, index) in homeFlashPromotion.productList" :key="index" class="guess-item" @click="navToDetailPage(item)">
-				<view class="image-wrapper">
-					<image :src="item.pic" mode="aspectFill"></image>
-				</view>
-				<text class="title clamp">{{item.name}}</text>
-				<text class="title2 clamp">{{item.subTitle}}</text>
-				<text class="price">￥{{item.price}}</text>
-			</view>
-		</view>
+<!--		<view class="f-header m-t" v-if="homeFlashPromotion!==null">-->
+<!--			<image src="/static/icon_flash_promotion.png"></image>-->
+<!--			<view class="tit-box">-->
+<!--				<text class="tit">秒杀专区</text>-->
+<!--				<text class="tit2">下一场 {{homeFlashPromotion.nextStartTime | formatTime}} 开始</text>-->
+<!--			</view>-->
+<!--			<view class="tit-box">-->
+<!--				<text class="tit2" style="text-align: right;">本场结束剩余：</text>-->
+<!--				<view style="text-align: right;">-->
+<!--					<text class="hour timer">{{cutDownTime.endHour}}</text>-->
+<!--					<text>:</text>-->
+<!--					<text class="minute timer">{{cutDownTime.endMinute}}</text>-->
+<!--					<text>:</text>-->
+<!--					<text class="second timer">{{cutDownTime.endSecond}}</text>-->
+<!--				</view>-->
+<!--			</view>-->
+<!--			<text class="yticon icon-you" v-show="false"></text>-->
+<!--		</view>-->
+<!--		<view class="guess-section">-->
+<!--			<view v-for="(item, index) in homeFlashPromotion.productList" :key="index" class="guess-item" @click="navToDetailPage(item)">-->
+<!--				<view class="image-wrapper">-->
+<!--					<image :src="item.pic" mode="aspectFill"></image>-->
+<!--				</view>-->
+<!--				<text class="title clamp">{{item.name}}</text>-->
+<!--				<text class="title2 clamp">{{item.subTitle}}</text>-->
+<!--				<text class="price">￥{{item.price}}</text>-->
+<!--			</view>-->
+<!--		</view>-->
 
 		<!-- 新鲜好物 -->
-		<view class="f-header m-t" @click="navToNewProudctListPage()">
-			<image src="/static/icon_new_product.png"></image>
-			<view class="tit-box">
-				<text class="tit">新鲜好物</text>
-				<text class="tit2">为你寻觅世间好物</text>
-			</view>
-			<text class="yticon icon-you"></text>
-		</view>
-		<view class="seckill-section">
-			<scroll-view class="floor-list" scroll-x>
-				<view class="scoll-wrapper">
-					<view v-for="(item, index) in newProductList" :key="index" class="floor-item" @click="navToDetailPage(item)">
-						<image :src="item.pic" mode="aspectFill"></image>
-						<text class="title clamp">{{item.name}}</text>
-						<text class="title2 clamp">{{item.subTitle}}</text>
-						<text class="price">￥{{item.price}}</text>
-					</view>
-				</view>
-			</scroll-view>
-		</view>
+<!--		<view class="f-header m-t" @click="navToNewProudctListPage()">-->
+<!--			<image src="/static/icon_new_product.png"></image>-->
+<!--			<view class="tit-box">-->
+<!--				<text class="tit">新鲜好物</text>-->
+<!--				<text class="tit2">为你寻觅世间好物</text>-->
+<!--			</view>-->
+<!--			<text class="yticon icon-you"></text>-->
+<!--		</view>-->
+<!--		<view class="seckill-section">-->
+<!--			<scroll-view class="floor-list" scroll-x>-->
+<!--				<view class="scoll-wrapper">-->
+<!--					<view v-for="(item, index) in newProductList" :key="index" class="floor-item" @click="navToDetailPage(item)">-->
+<!--						<image :src="item.pic" mode="aspectFill"></image>-->
+<!--						<text class="title clamp">{{item.name}}</text>-->
+<!--						<text class="title2 clamp">{{item.subTitle}}</text>-->
+<!--						<text class="price">￥{{item.price}}</text>-->
+<!--					</view>-->
+<!--				</view>-->
+<!--			</scroll-view>-->
+<!--		</view>-->
 
 		<!-- 人气推荐楼层 -->
-		<view class="f-header m-t" @click="navToHotProudctListPage()">
-			<image src="/static/icon_hot_product.png"></image>
-			<view class="tit-box">
-				<text class="tit">人气推荐</text>
-				<text class="tit2">大家都赞不绝口的</text>
-			</view>
-			<text class="yticon icon-you"></text>
-		</view>
-
-		<view class="hot-section">
-			<view v-for="(item, index) in hotProductList" :key="index" class="guess-item" @click="navToDetailPage(item)">
-				<view class="image-wrapper">
-					<image :src="item.pic" mode="aspectFill"></image>
-				</view>
-				<view class="txt">
-					<text class="title clamp">{{item.name}}</text>
-					<text class="title2">{{item.subTitle}}</text>
-					<text class="price">￥{{item.price}}</text>
-				</view>
-			</view>
-		</view>
+<!--		<view class="f-header m-t" @click="navToHotProudctListPage()">-->
+<!--			<image src="/static/icon_hot_product.png"></image>-->
+<!--			<view class="tit-box">-->
+<!--				<text class="tit">人气推荐</text>-->
+<!--				<text class="tit2">大家都赞不绝口的</text>-->
+<!--			</view>-->
+<!--			<text class="yticon icon-you"></text>-->
+<!--		</view>-->
+<!--		<view class="hot-section">-->
+<!--			<view v-for="(item, index) in hotProductList" :key="index" class="guess-item" @click="navToDetailPage(item)">-->
+<!--				<view class="image-wrapper">-->
+<!--					<image :src="item.pic" mode="aspectFill"></image>-->
+<!--				</view>-->
+<!--				<view class="txt">-->
+<!--					<text class="title clamp">{{item.name}}</text>-->
+<!--					<text class="title2">{{item.subTitle}}</text>-->
+<!--					<text class="price">￥{{item.price}}</text>-->
+<!--				</view>-->
+<!--			</view>-->
+<!--		</view>-->
 
 		<!-- 猜你喜欢-->
-		<view class="f-header m-t">
-			<image src="/static/icon_recommend_product.png"></image>
-			<view class="tit-box">
-				<text class="tit">猜你喜欢</text>
-				<text class="tit2">你喜欢的都在这里了</text>
-			</view>
-			<text class="yticon icon-you" v-show="false"></text>
-		</view>
+<!--		<view class="f-header m-t">-->
+<!--			<image src="/static/icon_recommend_product.png"></image>-->
+<!--			<view class="tit-box">-->
+<!--				<text class="tit">猜你喜欢</text>-->
+<!--				<text class="tit2">你喜欢的都在这里了</text>-->
+<!--			</view>-->
+<!--			<text class="yticon icon-you" v-show="false"></text>-->
+<!--		</view>-->
 
 		<view class="guess-section">
 			<view v-for="(item, index) in recommendProductList" :key="index" class="guess-item" @click="navToDetailPage(item)">
@@ -196,7 +265,88 @@
 					pageNum: 1,
 					pageSize: 4
 				},
-				loadingType:'more'
+				loadingType:'more',
+				// 星选专享四宫格数据
+				starProducts: [
+					{
+						id: 1,
+						tag: '冬季爆款',
+						tagClass: 'winter-tag',
+						pic: 'https://via.placeholder.com/300x150/4a90e2/ffffff?text=冬季爆款',
+						label: '冬日新款',
+						type: 'winter'
+					},
+					{
+						id: 2,
+						tag: '应季爆款',
+						tagClass: 'season-tag',
+						pic: 'https://via.placeholder.com/300x150/7ed321/ffffff?text=应季爆款',
+						label: '冬日新款',
+						type: 'season'
+					},
+					{
+						id: 3,
+						tag: '双十二爆款',
+						tagClass: 'sale-tag',
+						pic: 'https://via.placeholder.com/300x150/f5a623/ffffff?text=双十二',
+						label: '冬日新款',
+						type: 'sale'
+					},
+					{
+						id: 4,
+						tag: '视频爆款榜',
+						tagClass: 'video-tag',
+						pic: 'https://via.placeholder.com/300x150/d0021b/ffffff?text=视频榜',
+						label: '冬日新款',
+						type: 'video'
+					}
+				],
+				// 筛选相关数据
+				showDropdown: false,
+				currentFilterType: '',
+				dropdownTitle: '',
+				currentOptions: [],
+				currentFilters: {
+					platform: '平台选择',
+					sales: '昨日销量',
+					commission: '佣金比例',
+					sort: '最新上架'
+				},
+				// 筛选选项数据
+				filterOptions: {
+					platform: [
+						{label: '平台选择', value: 'all', selected: true},
+						{label: '抖音', value: 'douyin', selected: false},
+						{label: '快手', value: 'kuaishou', selected: false},
+						{label: '小红书', value: 'xiaohongshu', selected: false},
+						{label: '淘宝直播', value: 'taobao', selected: false},
+						{label: '京东直播', value: 'jingdong', selected: false}
+					],
+					sales: [
+						{label: '昨日销量', value: 'all', selected: true},
+						{label: '1000+', value: '1000', selected: false},
+						{label: '5000+', value: '5000', selected: false},
+						{label: '1万+', value: '10000', selected: false},
+						{label: '5万+', value: '50000', selected: false},
+						{label: '10万+', value: '100000', selected: false}
+					],
+					commission: [
+						{label: '佣金比例', value: 'all', selected: true},
+						{label: '5%-10%', value: '5-10', selected: false},
+						{label: '10%-20%', value: '10-20', selected: false},
+						{label: '20%-30%', value: '20-30', selected: false},
+						{label: '30%-50%', value: '30-50', selected: false},
+						{label: '50%以上', value: '50+', selected: false}
+					],
+					sort: [
+						{label: '最新上架', value: 'newest', selected: true},
+						{label: '销量最高', value: 'sales', selected: false},
+						{label: '佣金最高', value: 'commission', selected: false},
+						{label: '价格最低', value: 'price_low', selected: false},
+						{label: '价格最高', value: 'price_high', selected: false},
+						{label: '好评最多', value: 'rating', selected: false}
+					]
+				}
 			};
 		},
 		onLoad() {
@@ -316,6 +466,90 @@
 				uni.navigateTo({
 					url: `/pages/product/hotProductList`
 				})
+			},
+			// 新增AI相关方法
+			navToAIPage(page) {
+				if (page === 'hotRanking') {
+					uni.navigateTo({
+						url: '/pages/ai/hotRankingList'
+					});
+				} else {
+					this.showDeveloping();
+				}
+			},
+			showDeveloping() {
+				uni.showToast({
+					title: '功能正在开发中',
+					icon: 'none'
+				});
+			},
+			// 星选专享按钮点击
+			navToStarSelection() {
+				const title = encodeURIComponent('星选专享');
+				const type = 'star';
+				uni.navigateTo({
+					url: `/pages/ai/starProducts?title=${title}&type=${type}`
+				});
+			},
+			// 四宫格季节页面跳转 - 统一跳转到starProducts页面，携带不同参数
+			navToSeasonPage(item) {
+				const title = encodeURIComponent(item.tag);
+				const type = item.type;
+				uni.navigateTo({
+					url: `/pages/ai/starProducts?title=${title}&type=${type}`
+				});
+			},
+			// 筛选相关方法
+			showFilterDropdown(type) {
+				this.currentFilterType = type;
+				this.currentOptions = [...this.filterOptions[type]];
+				
+				// 设置下拉框标题
+				const titles = {
+					platform: '选择平台',
+					sales: '选择销量范围',
+					commission: '选择佣金比例',
+					sort: '选择排序方式'
+				};
+				this.dropdownTitle = titles[type];
+				this.showDropdown = true;
+			},
+			hideDropdown() {
+				this.showDropdown = false;
+			},
+			selectOption(option) {
+				// 清除当前类型的所有选中状态
+				this.filterOptions[this.currentFilterType].forEach(item => {
+					item.selected = false;
+				});
+				
+				// 设置新的选中状态
+				option.selected = true;
+				
+				// 更新当前筛选显示
+				this.currentFilters[this.currentFilterType] = option.label;
+				
+				// 关闭下拉框
+				this.hideDropdown();
+				
+				// 执行筛选逻辑
+				this.applyFilter();
+			},
+			applyFilter() {
+				// 这里可以根据筛选条件重新加载商品数据
+				const filters = {};
+				Object.keys(this.filterOptions).forEach(key => {
+					const selected = this.filterOptions[key].find(item => item.selected);
+					if (selected && selected.value !== 'all') {
+						filters[key] = selected.value;
+					}
+				});
+				
+				console.log('应用筛选条件:', filters);
+				uni.showToast({
+					title: '筛选功能正在开发中',
+					icon: 'none'
+				});
 			},
 		},
 		// #ifndef MP
@@ -478,31 +712,161 @@
 		}
 	}
 
-	/* 分类 */
-	.cate-section {
-		display: flex;
-		justify-content: space-around;
-		align-items: center;
-		flex-wrap: wrap;
-		padding: 30upx 22upx;
+	/* AI功能导航区 */
+	.ai-nav-section {
 		background: #fff;
-
-		.cate-item {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			font-size: $font-sm + 2upx;
-			color: $font-color-dark;
+		padding: 30upx;
+		margin-top: -20upx;
+		border-radius: 16upx 16upx 0 0;
+		position: relative;
+		z-index: 5;
+		
+		.nav-grid {
+			display: grid;
+			grid-template-columns: repeat(4, 1fr);
+			gap: 30upx;
+			
+			.nav-item {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				
+				.nav-icon {
+					width: 88upx;
+					height: 88upx;
+					border-radius: 16upx;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					font-size: 40upx;
+					margin-bottom: 10upx;
+					
+					&.hot {
+						background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
+					}
+					
+					&.expert {
+						background: linear-gradient(135deg, #4ecdc4, #44a08d);
+					}
+					
+					&.live {
+						background: linear-gradient(135deg, #a8edea, #fed6e3);
+					}
+					
+					&.video {
+						background: linear-gradient(135deg, #ffecd2, #fcb69f);
+					}
+					
+					&.avatar {
+						background: linear-gradient(135deg, #667eea, #764ba2);
+					}
+					
+					&.ai-video {
+						background: linear-gradient(135deg, #f093fb, #f5576c);
+					}
+					
+					&.ai-copy {
+						background: linear-gradient(135deg, #4facfe, #00f2fe);
+					}
+					
+					&.ai-tools {
+						background: linear-gradient(135deg, #43e97b, #38f9d7);
+					}
+				}
+				
+				text {
+					font-size: 24upx;
+					color: $font-color-dark;
+				}
+			}
 		}
-
-		/* 原图标颜色太深,不想改图了,所以加了透明度 */
-		image {
-			width: 88upx;
-			height: 88upx;
-			margin-bottom: 14upx;
-			border-radius: 50%;
-			opacity: .7;
-			box-shadow: 4upx 4upx 20upx rgba(250, 67, 106, 0.3);
+	}
+	
+	/* 星选专享区域 - 修改为左侧按钮+右侧四宫格 */
+	.star-exclusive-section {
+		display: flex;
+		background: #fff;
+		margin-top: 20upx;
+		padding: 30upx;
+		
+		.star-button {
+			width: 160upx;
+			height: 320upx;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			background: linear-gradient(135deg, #667eea, #764ba2);
+			border-radius: 16upx;
+			margin-right: 20upx;
+			
+			.vertical-text {
+				writing-mode: vertical-lr;
+				font-size: 36upx;
+				font-weight: bold;
+				color: #fff;
+				letter-spacing: 8upx;
+			}
+		}
+		
+		.star-grid {
+			flex: 1;
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			grid-template-rows: 1fr 1fr;
+			gap: 15upx;
+			height: 320upx;
+			
+			.grid-item {
+				position: relative;
+				border-radius: 12upx;
+				overflow: hidden;
+				
+				.grid-tag {
+					position: absolute;
+					top: 8upx;
+					left: 8upx;
+					padding: 6upx 12upx;
+					border-radius: 16upx;
+					font-size: 18upx;
+					color: #fff;
+					z-index: 2;
+					
+					&.winter-tag {
+						background: linear-gradient(135deg, #4a90e2, #357abd);
+					}
+					
+					&.season-tag {
+						background: linear-gradient(135deg, #7ed321, #5cb85c);
+					}
+					
+					&.sale-tag {
+						background: linear-gradient(135deg, #f5a623, #f39c12);
+					}
+					
+					&.video-tag {
+						background: linear-gradient(135deg, #d0021b, #e74c3c);
+					}
+				}
+				
+				.grid-image {
+					width: 100%;
+					height: 100%;
+					object-fit: cover;
+				}
+				
+				.grid-label {
+					position: absolute;
+					bottom: 8upx;
+					left: 8upx;
+					right: 8upx;
+					text-align: center;
+					font-size: 20upx;
+					color: #fff;
+					background: rgba(0, 0, 0, 0.5);
+					padding: 6upx;
+					border-radius: 8upx;
+				}
+			}
 		}
 	}
 
@@ -843,6 +1207,131 @@
 			display: flex;
 			flex-direction: column;
 			padding-left: 40upx;
+		}
+	}
+	
+	/* 筛选区域样式 */
+	.filter-section {
+		background: #fff;
+		margin-top: 20upx;
+		padding: 30upx;
+		
+		.filter-row {
+			display: flex;
+			justify-content: space-between;
+			
+			.filter-item {
+				flex: 1;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				padding: 20upx 15upx;
+				background: #f8f9fa;
+				border-radius: 8upx;
+				margin: 0 8upx;
+				
+				&:first-child {
+					margin-left: 0;
+				}
+				
+				&:last-child {
+					margin-right: 0;
+				}
+				
+				.filter-label {
+					font-size: 26upx;
+					color: #333;
+					margin-right: 8upx;
+				}
+				
+				.filter-arrow {
+					font-size: 20upx;
+					color: #666;
+					transition: transform 0.3s;
+				}
+				
+				&:active {
+					background: #e9ecef;
+				}
+			}
+		}
+	}
+	
+	/* 下拉选择弹窗样式 */
+	.dropdown-mask {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background: rgba(0, 0, 0, 0.5);
+		z-index: 1000;
+		display: flex;
+		align-items: flex-end;
+		opacity: 0;
+		visibility: hidden;
+		transition: all 0.3s;
+		
+		&.show {
+			opacity: 1;
+			visibility: visible;
+		}
+		
+		.dropdown-content {
+			width: 100%;
+			background: #fff;
+			border-radius: 20upx 20upx 0 0;
+			max-height: 60vh;
+			transform: translateY(100%);
+			transition: transform 0.3s;
+		}
+		
+		&.show .dropdown-content {
+			transform: translateY(0);
+		}
+		
+		.dropdown-title {
+			text-align: center;
+			padding: 30upx;
+			font-size: 32upx;
+			font-weight: bold;
+			color: #333;
+			border-bottom: 1px solid #f0f0f0;
+		}
+		
+		.dropdown-list {
+			max-height: 400upx;
+			overflow-y: auto;
+			
+			.dropdown-option {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				padding: 30upx;
+				border-bottom: 1px solid #f8f9fa;
+				
+				&:last-child {
+					border-bottom: none;
+				}
+				
+				&.active {
+					background: #f0f8ff;
+					color: #1890ff;
+				}
+				
+				text {
+					font-size: 28upx;
+				}
+				
+				.check-icon {
+					color: #1890ff;
+					font-weight: bold;
+				}
+				
+				&:active {
+					background: #f5f5f5;
+				}
+			}
 		}
 	}
 </style>

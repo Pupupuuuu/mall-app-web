@@ -260,6 +260,18 @@
 					}
 				}
 			}
+		}, {
+			"path": "pages/ai/starProducts",
+			"style": {
+				"enablePullDownRefresh": true,
+				"navigationBarTitleText": "星选商品"
+			}
+		}, {
+			"path": "pages/ai/hotRankingList",
+			"style": {
+				"enablePullDownRefresh": true,
+				"navigationBarTitleText": "爆品榜"
+			}
 		}
 	],
 	"globalStyle": {
