@@ -25,6 +25,7 @@
 				<text class="num">{{swiperLength}}</text>
 			</view>
 		</view>
+
 		<!-- AI功能导航区 - 按原型图8个功能 -->
 		<view class="ai-nav-section">
 			<view class="nav-grid">
@@ -117,109 +118,7 @@
 			</view>
 		</view>
 
-		<!-- 品牌制造商直供 -->
-<!--		<view class="f-header m-t" @click="navToRecommendBrandPage()">-->
-<!--			<image src="/static/icon_home_brand.png"></image>-->
-<!--			<view class="tit-box">-->
-<!--				<text class="tit">品牌制造商直供</text>-->
-<!--				<text class="tit2">工厂直达消费者，剔除品牌溢价</text>-->
-<!--			</view>-->
-<!--			<text class="yticon icon-you"></text>-->
-<!--		</view>-->
-<!--		<view class="guess-section">-->
-<!--			<view v-for="(item, index) in brandList" :key="index" class="guess-item" @click="navToBrandDetailPage(item)">-->
-<!--				<view class="image-wrapper-brand">-->
-<!--					<image :src="item.logo" mode="aspectFit"></image>-->
-<!--				</view>-->
-<!--				<text class="title clamp">{{item.name}}</text>-->
-<!--				<text class="title2">商品数量：{{item.productCount}}</text>-->
-<!--			</view>-->
-<!--		</view>-->
-
-		<!-- 秒杀专区 -->
-<!--		<view class="f-header m-t" v-if="homeFlashPromotion!==null">-->
-<!--			<image src="/static/icon_flash_promotion.png"></image>-->
-<!--			<view class="tit-box">-->
-<!--				<text class="tit">秒杀专区</text>-->
-<!--				<text class="tit2">下一场 {{homeFlashPromotion.nextStartTime | formatTime}} 开始</text>-->
-<!--			</view>-->
-<!--			<view class="tit-box">-->
-<!--				<text class="tit2" style="text-align: right;">本场结束剩余：</text>-->
-<!--				<view style="text-align: right;">-->
-<!--					<text class="hour timer">{{cutDownTime.endHour}}</text>-->
-<!--					<text>:</text>-->
-<!--					<text class="minute timer">{{cutDownTime.endMinute}}</text>-->
-<!--					<text>:</text>-->
-<!--					<text class="second timer">{{cutDownTime.endSecond}}</text>-->
-<!--				</view>-->
-<!--			</view>-->
-<!--			<text class="yticon icon-you" v-show="false"></text>-->
-<!--		</view>-->
-<!--		<view class="guess-section">-->
-<!--			<view v-for="(item, index) in homeFlashPromotion.productList" :key="index" class="guess-item" @click="navToDetailPage(item)">-->
-<!--				<view class="image-wrapper">-->
-<!--					<image :src="item.pic" mode="aspectFill"></image>-->
-<!--				</view>-->
-<!--				<text class="title clamp">{{item.name}}</text>-->
-<!--				<text class="title2 clamp">{{item.subTitle}}</text>-->
-<!--				<text class="price">￥{{item.price}}</text>-->
-<!--			</view>-->
-<!--		</view>-->
-
-		<!-- 新鲜好物 -->
-<!--		<view class="f-header m-t" @click="navToNewProudctListPage()">-->
-<!--			<image src="/static/icon_new_product.png"></image>-->
-<!--			<view class="tit-box">-->
-<!--				<text class="tit">新鲜好物</text>-->
-<!--				<text class="tit2">为你寻觅世间好物</text>-->
-<!--			</view>-->
-<!--			<text class="yticon icon-you"></text>-->
-<!--		</view>-->
-<!--		<view class="seckill-section">-->
-<!--			<scroll-view class="floor-list" scroll-x>-->
-<!--				<view class="scoll-wrapper">-->
-<!--					<view v-for="(item, index) in newProductList" :key="index" class="floor-item" @click="navToDetailPage(item)">-->
-<!--						<image :src="item.pic" mode="aspectFill"></image>-->
-<!--						<text class="title clamp">{{item.name}}</text>-->
-<!--						<text class="title2 clamp">{{item.subTitle}}</text>-->
-<!--						<text class="price">￥{{item.price}}</text>-->
-<!--					</view>-->
-<!--				</view>-->
-<!--			</scroll-view>-->
-<!--		</view>-->
-
-		<!-- 人气推荐楼层 -->
-<!--		<view class="f-header m-t" @click="navToHotProudctListPage()">-->
-<!--			<image src="/static/icon_hot_product.png"></image>-->
-<!--			<view class="tit-box">-->
-<!--				<text class="tit">人气推荐</text>-->
-<!--				<text class="tit2">大家都赞不绝口的</text>-->
-<!--			</view>-->
-<!--			<text class="yticon icon-you"></text>-->
-<!--		</view>-->
-<!--		<view class="hot-section">-->
-<!--			<view v-for="(item, index) in hotProductList" :key="index" class="guess-item" @click="navToDetailPage(item)">-->
-<!--				<view class="image-wrapper">-->
-<!--					<image :src="item.pic" mode="aspectFill"></image>-->
-<!--				</view>-->
-<!--				<view class="txt">-->
-<!--					<text class="title clamp">{{item.name}}</text>-->
-<!--					<text class="title2">{{item.subTitle}}</text>-->
-<!--					<text class="price">￥{{item.price}}</text>-->
-<!--				</view>-->
-<!--			</view>-->
-<!--		</view>-->
-
-		<!-- 猜你喜欢-->
-<!--		<view class="f-header m-t">-->
-<!--			<image src="/static/icon_recommend_product.png"></image>-->
-<!--			<view class="tit-box">-->
-<!--				<text class="tit">猜你喜欢</text>-->
-<!--				<text class="tit2">你喜欢的都在这里了</text>-->
-<!--			</view>-->
-<!--			<text class="yticon icon-you" v-show="false"></text>-->
-<!--		</view>-->
-
+    <!-- 商品展示 -->
 		<view class="guess-section">
 			<view v-for="(item, index) in recommendProductList" :key="index" class="guess-item" @click="navToDetailPage(item)">
 				<view class="image-wrapper">
@@ -635,7 +534,7 @@
 
 
 	page {
-		background: #f5f5f5;
+		background: linear-gradient(180deg, #f8f9fa 0%, #e9ecef 100%);
 	}
 
 	.m-t {
@@ -677,7 +576,9 @@
 		image {
 			width: 100%;
 			height: 100%;
-			border-radius: 10upx;
+			border-radius: 16upx;
+			box-shadow: 0 8upx 24upx rgba(0, 0, 0, 0.15);
+			transition: transform 0.3s ease;
 		}
 	}
 
@@ -685,41 +586,46 @@
 		display: flex;
 		position: absolute;
 		left: 60upx;
-		bottom: 15upx;
-		width: 72upx;
-		height: 36upx;
-		background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAABkCAYAAADDhn8LAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTMyIDc5LjE1OTI4NCwgMjAxNi8wNC8xOS0xMzoxMzo0MCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OTk4MzlBNjE0NjU1MTFFOUExNjRFQ0I3RTQ0NEExQjMiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OTk4MzlBNjA0NjU1MTFFOUExNjRFQ0I3RTQ0NEExQjMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTcgKFdpbmRvd3MpIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6Q0E3RUNERkE0NjExMTFFOTg5NzI4MTM2Rjg0OUQwOEUiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6Q0E3RUNERkI0NjExMTFFOTg5NzI4MTM2Rjg0OUQwOEUiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz4Gh5BPAAACTUlEQVR42uzcQW7jQAwFUdN306l1uWwNww5kqdsmm6/2MwtVCp8CosQtP9vg/2+/gY+DRAMBgqnjIp2PaCxCLLldpPARRIiFj1yBbMV+cHZh9PURRLQNhY8kgWyL/WDtwujjI8hoE8rKLqb5CDJaRMJHokC6yKgSCR9JAukmokIknCQJpLOIrJFwMsBJELFcKHwM9BFkLBMKFxNcBCHlQ+FhoocgpVwwnv0Xn30QBJGMC0QcaBVJiAMiec/dcwKuL4j1QMsVCXFAJE4s4NQA3K/8Y6DzO4g40P7UcmIBJxbEesCKWBDg8wWxHrAiFgT4fEGsB/CwIhYE+AeBAAdPLOcV8HRmWRDAiQVcO7GcV8CLM8uCAE4sQCDAlHcQ7x+ABQEEAggEEAggEEAggEAAgQACASAQQCCAQACBAAIBBAIIBBAIIBBAIABe4e9iAe/xd7EAJxYgEGDeO4j3EODp/cOCAE4sYMyJ5cwCHs4rCwI4sYBxJ5YzC84rCwKcXxArAuthQYDzC2JF0H49LAhwYUGsCFqvx5EF2T07dMaJBetx4cRyaqFtHJ8EIhK0i8OJBQxcECuCVutxJhCRoE0cZwMRyRcFefa/ffZBVPogePihhyCnbBhcfMFFEFM+DD4m+ghSlgmDkwlOgpAl4+BkkJMgZdk4+EgaSCcpVX7bmY9kgXQQU+1TgE0c+QJZUUz1b2T4SBbIKmJW+3iMj2SBVBWz+leVfCQLpIqYbp8b85EskIxyfIOfK5Sf+wiCRJEsllQ+oqEkQfBxmD8BBgA5hVjXyrBNUQAAAABJRU5ErkJggg==);
-		background-size: 100% 100%;
+		bottom: 20upx;
+		width: 80upx;
+		height: 40upx;
+		background: linear-gradient(135deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4));
+		border-radius: 20upx;
+		backdrop-filter: blur(8upx);
+		box-shadow: 0 4upx 12upx rgba(0, 0, 0, 0.2);
 
 		.num {
-			width: 36upx;
-			height: 36upx;
+			width: 40upx;
+			height: 40upx;
 			border-radius: 50px;
 			font-size: 24upx;
 			color: #fff;
 			text-align: center;
-			line-height: 36upx;
+			line-height: 40upx;
+			font-weight: 600;
 		}
 
 		.sign {
 			position: absolute;
 			top: 0;
 			left: 50%;
-			line-height: 36upx;
-			font-size: 12upx;
+			line-height: 40upx;
+			font-size: 14upx;
 			color: #fff;
 			transform: translateX(-50%);
+			font-weight: 500;
 		}
 	}
 
 	/* AI功能导航区 */
 	.ai-nav-section {
-		background: #fff;
-		padding: 30upx;
+		background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+		padding: 40upx 30upx;
 		margin-top: -20upx;
-		border-radius: 16upx 16upx 0 0;
+		border-radius: 20upx 20upx 0 0;
 		position: relative;
 		z-index: 5;
+		box-shadow: 0 -4upx 20upx rgba(0, 0, 0, 0.05);
 		
 		.nav-grid {
 			display: grid;
@@ -730,53 +636,74 @@
 				display: flex;
 				flex-direction: column;
 				align-items: center;
+				transition: transform 0.2s ease;
+				
+				&:active {
+					transform: scale(0.95);
+				}
 				
 				.nav-icon {
 					width: 88upx;
 					height: 88upx;
-					border-radius: 16upx;
+					border-radius: 20upx;
 					display: flex;
 					align-items: center;
 					justify-content: center;
 					font-size: 40upx;
-					margin-bottom: 10upx;
+					margin-bottom: 12upx;
+					box-shadow: 0 6upx 16upx rgba(0, 0, 0, 0.1);
+					transition: all 0.3s ease;
+					
+					&:hover {
+						transform: translateY(-2upx);
+						box-shadow: 0 8upx 20upx rgba(0, 0, 0, 0.15);
+					}
 					
 					&.hot {
 						background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
+						box-shadow: 0 6upx 16upx rgba(255, 107, 107, 0.3);
 					}
 					
 					&.expert {
 						background: linear-gradient(135deg, #4ecdc4, #44a08d);
+						box-shadow: 0 6upx 16upx rgba(78, 205, 196, 0.3);
 					}
 					
 					&.live {
 						background: linear-gradient(135deg, #a8edea, #fed6e3);
+						box-shadow: 0 6upx 16upx rgba(168, 237, 234, 0.3);
 					}
 					
 					&.video {
 						background: linear-gradient(135deg, #ffecd2, #fcb69f);
+						box-shadow: 0 6upx 16upx rgba(255, 236, 210, 0.3);
 					}
 					
 					&.avatar {
 						background: linear-gradient(135deg, #667eea, #764ba2);
+						box-shadow: 0 6upx 16upx rgba(102, 126, 234, 0.3);
 					}
 					
 					&.ai-video {
 						background: linear-gradient(135deg, #f093fb, #f5576c);
+						box-shadow: 0 6upx 16upx rgba(240, 147, 251, 0.3);
 					}
 					
 					&.ai-copy {
 						background: linear-gradient(135deg, #4facfe, #00f2fe);
+						box-shadow: 0 6upx 16upx rgba(79, 172, 254, 0.3);
 					}
 					
 					&.ai-tools {
 						background: linear-gradient(135deg, #43e97b, #38f9d7);
+						box-shadow: 0 6upx 16upx rgba(67, 233, 123, 0.3);
 					}
 				}
 				
 				text {
 					font-size: 24upx;
 					color: $font-color-dark;
+					font-weight: 500;
 				}
 			}
 		}
@@ -788,6 +715,8 @@
 		background: #fff;
 		margin-top: 20upx;
 		padding: 30upx;
+		border-radius: 16upx;
+		box-shadow: 0 4upx 20upx rgba(0, 0, 0, 0.06);
 		
 		.star-button {
 			width: 160upx;
@@ -796,8 +725,14 @@
 			align-items: center;
 			justify-content: center;
 			background: linear-gradient(135deg, #667eea, #764ba2);
-			border-radius: 16upx;
+			border-radius: 20upx;
 			margin-right: 20upx;
+			box-shadow: 0 8upx 24upx rgba(102, 126, 234, 0.25);
+			transition: all 0.3s ease;
+			
+			&:active {
+				transform: scale(0.98);
+			}
 			
 			.vertical-text {
 				writing-mode: vertical-lr;
@@ -805,6 +740,7 @@
 				font-weight: bold;
 				color: #fff;
 				letter-spacing: 8upx;
+				text-shadow: 0 2upx 4upx rgba(0, 0, 0, 0.2);
 			}
 		}
 		
@@ -818,33 +754,45 @@
 			
 			.grid-item {
 				position: relative;
-				border-radius: 12upx;
+				border-radius: 16upx;
 				overflow: hidden;
+				box-shadow: 0 4upx 12upx rgba(0, 0, 0, 0.1);
+				transition: all 0.3s ease;
+				
+				&:active {
+					transform: scale(0.98);
+				}
 				
 				.grid-tag {
 					position: absolute;
-					top: 8upx;
-					left: 8upx;
-					padding: 6upx 12upx;
-					border-radius: 16upx;
-					font-size: 18upx;
+					top: 12upx;
+					left: 12upx;
+					padding: 8upx 16upx;
+					border-radius: 20upx;
+					font-size: 20upx;
 					color: #fff;
 					z-index: 2;
+					font-weight: 500;
+					backdrop-filter: blur(4upx);
 					
 					&.winter-tag {
 						background: linear-gradient(135deg, #4a90e2, #357abd);
+						box-shadow: 0 2upx 8upx rgba(74, 144, 226, 0.3);
 					}
 					
 					&.season-tag {
 						background: linear-gradient(135deg, #7ed321, #5cb85c);
+						box-shadow: 0 2upx 8upx rgba(126, 211, 33, 0.3);
 					}
 					
 					&.sale-tag {
 						background: linear-gradient(135deg, #f5a623, #f39c12);
+						box-shadow: 0 2upx 8upx rgba(245, 166, 35, 0.3);
 					}
 					
 					&.video-tag {
 						background: linear-gradient(135deg, #d0021b, #e74c3c);
+						box-shadow: 0 2upx 8upx rgba(208, 2, 27, 0.3);
 					}
 				}
 				
@@ -852,19 +800,33 @@
 					width: 100%;
 					height: 100%;
 					object-fit: cover;
+					transition: transform 0.3s ease;
 				}
 				
 				.grid-label {
 					position: absolute;
-					bottom: 8upx;
-					left: 8upx;
-					right: 8upx;
+					bottom: 12upx;
+					left: 12upx;
+					right: 12upx;
 					text-align: center;
-					font-size: 20upx;
+					font-size: 22upx;
 					color: #fff;
-					background: rgba(0, 0, 0, 0.5);
-					padding: 6upx;
-					border-radius: 8upx;
+					background: linear-gradient(135deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4));
+					padding: 10upx;
+					border-radius: 12upx;
+					backdrop-filter: blur(8upx);
+					font-weight: 500;
+				}
+				
+				&::after {
+					content: '';
+					position: absolute;
+					top: 0;
+					left: 0;
+					right: 0;
+					bottom: 0;
+					background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.1) 100%);
+					pointer-events: none;
 				}
 			}
 		}
@@ -1095,30 +1057,56 @@
 	.guess-section {
 		display: flex;
 		flex-wrap: wrap;
-		padding: 0 30upx;
-		background: #fff;
+		padding: 20upx 30upx;
+		background: #f8f9fa;
 
 		.guess-item {
 			display: flex;
 			flex-direction: column;
 			width: 48%;
-			padding-bottom: 40upx;
+			margin-bottom: 30upx;
+			background: #fff;
+			border-radius: 16upx;
+			overflow: hidden;
+			box-shadow: 0 8upx 24upx rgba(0, 0, 0, 0.08);
+			transition: all 0.3s ease;
 
 			&:nth-child(2n+1) {
 				margin-right: 4%;
+			}
+
+			&:hover {
+				transform: translateY(-4upx);
+				box-shadow: 0 12upx 32upx rgba(0, 0, 0, 0.12);
+				
+				.image-wrapper image {
+					transform: scale(1.05);
+				}
 			}
 		}
 
 		.image-wrapper {
 			width: 100%;
 			height: 330upx;
-			border-radius: 3px;
+			position: relative;
 			overflow: hidden;
 
 			image {
 				width: 100%;
 				height: 100%;
 				opacity: 1;
+				transition: transform 0.3s ease;
+			}
+
+			&::after {
+				content: '';
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.02) 100%);
+				pointer-events: none;
 			}
 		}
 		
@@ -1138,19 +1126,29 @@
 		.title {
 			font-size: $font-lg;
 			color: $font-color-dark;
-			line-height: 80upx;
+			line-height: 1.4;
+			padding: 20upx 20upx 8upx;
+			font-weight: 500;
 		}
 
 		.title2 {
 			font-size: $font-sm;
 			color: $font-color-light;
-			line-height: 40upx;
+			line-height: 1.3;
+			padding: 0 20upx 8upx;
+			height: 60upx;
+			overflow: hidden;
+			display: -webkit-box;
+			-webkit-line-clamp: 2;
+			-webkit-box-orient: vertical;
 		}
 
 		.price {
-			font-size: $font-lg;
+			font-size: $font-lg + 2upx;
 			color: $uni-color-primary;
 			line-height: 1;
+			padding: 8upx 20upx 20upx;
+			font-weight: 600;
 		}
 	}
 
@@ -1214,44 +1212,57 @@
 	.filter-section {
 		background: #fff;
 		margin-top: 20upx;
-		padding: 30upx;
+		padding: 30upx 20upx;
+		border-radius: 16upx;
+		box-shadow: 0 4upx 20upx rgba(0, 0, 0, 0.06);
 		
 		.filter-row {
 			display: flex;
 			justify-content: space-between;
+			gap: 10upx;
 			
 			.filter-item {
 				flex: 1;
 				display: flex;
 				align-items: center;
 				justify-content: center;
-				padding: 20upx 15upx;
-				background: #f8f9fa;
-				border-radius: 8upx;
-				margin: 0 8upx;
-				
-				&:first-child {
-					margin-left: 0;
-				}
-				
-				&:last-child {
-					margin-right: 0;
-				}
+				padding: 20upx 8upx;
+				background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+				border-radius: 12upx;
+				border: 2upx solid transparent;
+				transition: all 0.3s ease;
+				box-shadow: 0 2upx 8upx rgba(0, 0, 0, 0.05);
+				min-width: 0;
 				
 				.filter-label {
-					font-size: 26upx;
+					font-size: 24upx;
 					color: #333;
-					margin-right: 8upx;
+					margin-right: 6upx;
+					font-weight: 500;
+					white-space: nowrap;
+					overflow: hidden;
+					text-overflow: ellipsis;
 				}
 				
 				.filter-arrow {
-					font-size: 20upx;
+					font-size: 18upx;
 					color: #666;
 					transition: transform 0.3s;
+					flex-shrink: 0;
 				}
 				
 				&:active {
-					background: #e9ecef;
+					background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
+					transform: scale(0.98);
+					border-color: #007bff;
+					
+					.filter-arrow {
+						transform: rotate(180deg);
+					}
+				}
+				
+				&:hover {
+					box-shadow: 0 4upx 12upx rgba(0, 0, 0, 0.1);
 				}
 			}
 		}
